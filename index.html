@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة ضغط وتصغير الصور المجانية</title>
+    <style>
+        body { font-family: Tahoma, sans-serif; background-color: #f4f7f6; text-align: center; padding: 50px; margin: 0; }
+        .container { background: white; max-width: 500px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
+        input[type="file"] { margin: 20px 0; padding: 10px; width: 100%; border: 1px dashed #ccc; border-radius: 5px; cursor: pointer; }
+        .btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
+        .btn:hover { background: #0056b3; }
+        #result { margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>أداة ضغط وتصغير الصور السريعة</h2>
+    <p>ارفع صورتك لتصغير حجمها فوراً وبدون فقدان الجودة</p>
+    
+    <input type="file" id="upload" accept="image/*">
+    <br>
+    <button class="btn" onclick="compressImage()">اضغط وحمل الصورة</button>
+    
+    <div id="result"></div>
+</div>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+function compressImage() {
+    const fileInput = document.getElementById('upload');
+    const resultDiv = document.getElementById('result');
+    
+    if (fileInput.files.length === 0) {
+        alert('من فضلك اختر صورة أولاً!');
+        return;
+    }
+    
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+        const img = new Image();
+        img.src = event.target.result;
+        
+        img.onload = function() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // تصغير الأبعاد بنسبة للنصف لتقليل الحجم
+            const scaleFactor = 0.7;
+            canvas.width = img.width * scaleFactor;
+            canvas.height = img.height * scaleFactor;
+            
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            
+            // تحويل الصورة لصيغة جودة 70% لضغطها
+            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+            
+            resultDiv.innerHTML = `
+                <p>تم ضغط الصورة بنجاح!</p>
+                <a href="${compressedDataUrl}" download="compressed_image.jpg" class="btn" style="background: #28a745; text-decoration: none; display: inline-block; margin-top: 10px;">تحميل الصورة المضغوطة</a>
+            `;
+        }
+    }
+    reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>
