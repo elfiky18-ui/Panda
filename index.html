@@ -22,7 +22,7 @@
     
     <input type="file" id="upload" accept="image/*">
     <br>
-    <button class="btn" onclick="compressImage()">اضغط وحمل الصورة</button>
+    <button class="btn" onclick="compressImage()">compressor</button>
     
     <div id="result"></div>
 </div>
@@ -61,7 +61,7 @@ function compressImage() {
             const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
             
             resultDiv.innerHTML = `
-                <p>تم ضغط الصورة بنجاح!</p>
+                <p>successfully compressed.</p>
                 <a href="${compressedDataUrl}" download="compressed_image.jpg" class="btn" style="background: #28a745; text-decoration: none; display: inline-block; margin-top: 10px;">تحميل الصورة المضغوطة</a>
             `;
         }
