@@ -1,75 +1,194 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panda Image Compressor</title>
     <style>
-        body { font-family: Tahoma, sans-serif; background-color: #f4f7f6; text-align: center; padding: 50px; margin: 0; }
-        .container { background: white; max-width: 500px; margin: 0 auto; padding: 30px; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); }
-        input[type="file"] { margin: 20px 0; padding: 10px; width: 100%; border: 1px dashed #ccc; border-radius: 5px; cursor: pointer; }
-        .btn { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; }
-        .btn:hover { background: #0056b3; }
-        #result { margin-top: 20px; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #eef2f3; 
+            text-align: center; 
+            padding: 40px 15px; 
+            margin: 0; 
+        }
+        .container { 
+            background: white; 
+            max-width: 450px; 
+            margin: 0 auto; 
+            padding: 30px 25px; 
+            border-radius: 12px; 
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.08); 
+        }
+        .logo {
+            width: 140px; 
+            height: auto; 
+            border-radius: 10px; 
+            margin-bottom: 10px;
+        }
+        h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        p.subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        /* تنسيق زرار Press الجديد */
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f8fafc;
+            margin-bottom: 20px;
+        }
+        .file-input-hidden {
+            display: none;
+        }
+        .btn-press {
+            display: inline-block;
+            background: #ffffff;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 10px 28px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .btn-press:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .file-name {
+            display: block;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #64748b;
+            word-break: break-all;
+        }
+        /* زرار الضغط والتحميل */
+        .btn { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold;
+            width: 100%; 
+            transition: background 0.2s;
+        }
+        .btn:hover { 
+            background: #0056b3; 
+        }
+        #result { 
+            margin-top: 20px; 
+        }
+        /* الفوتر والروابط */
+        footer {
+            margin-top: 25px;
+            font-size: 13px;
+        }
+        footer a {
+            color: #64748b;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.2s;
+        }
+        footer a:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <img src="00000.jpg" alt="Panda Logo" style="width: 150px; height: auto; border-radius: 10px; margin-bottom: 15px;" />
 
-<div class="container">
-    <h2>Panda Image Compressor</h2>
-    <p>Upload and compress your image easily.</p>
-    
-    <input type="file" id="upload" accept="image/*">
-    <br>
-    <button class="btn" onclick="compressImage()">compressor</button>
-    
-    <div id="result"></div>
-</div>
+    <!-- الشعار -->
+    <img src="00000.jpg" alt="Panda Logo" class="logo" />
 
-<canvas id="canvas" style="display:none;"></canvas>
-
-<script>
-function compressImage() {
-    const fileInput = document.getElementById('upload');
-    const resultDiv = document.getElementById('result');
-    
-    if (fileInput.files.length === 0) {
-        alert('Press!');
-        return;
-    }
-    
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    
-    reader.onload = function(event) {
-        const img = new Image();
-        img.src = event.target.result;
+    <div class="container">
+        <h2>Panda Image Compressor</h2>
+        <p class="subtitle">Upload your image to instantly reduce its size without losing quality</p>
         
-        img.onload = function() {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-            
-            // تصغير الأبعاد بنسبة للنصف لتقليل الحجم
-            const scaleFactor = 0.7;
-            canvas.width = img.width * scaleFactor;
-            canvas.height = img.height * scaleFactor;
-            
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            
-            // تحويل الصورة لصيغة جودة 70% لضغطها
-            const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-            
-            resultDiv.innerHTML = `
-                <p>successfully compressed.</p>
-                <a href="${compressedDataUrl}" download="compressed_image.jpg" class="btn" style="background: #28a745; text-decoration: none; display: inline-block; margin-top: 10px;">تحميل الصورة المضغوطة</a>
-            `;
+        <!-- منطقة اختيار الملف بقالب Press -->
+        <div class="upload-area">
+            <input type="file" id="upload" accept="image/*" class="file-input-hidden" onchange="showFileName()">
+            <label for="upload" class="btn-press">Press</label>
+            <span id="fileName" class="file-name">لم يتم اختيار أي ملف</span>
+        </div>
+
+        <button class="btn" onclick="compressImage()">اضغط وحمل الصورة</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <!-- فوتر الروابط لتفعيل صفحات السياسات بدون 404 -->
+    <footer>
+        <a href="privacy-policy.html">Privacy Policy</a> | 
+        <a href="about-us.html">About Us</a>
+    </footer>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <script>
+    // عرض اسم الملف بعد الضغط على Press
+    function showFileName() {
+        const fileInput = document.getElementById('upload');
+        const fileNameSpan = document.getElementById('fileName');
+        if (fileInput.files.length > 0) {
+            fileNameSpan.textContent = fileInput.files[0].name;
+            fileNameSpan.style.color = "#0f172a";
+        } else {
+            fileNameSpan.textContent = "لم يتم اختيار أي ملف";
+            fileNameSpan.style.color = "#64748b";
         }
     }
-    reader.readAsDataURL(file);
-}
-</script>
 
-</footer> 
+    // وظيفة ضغط الصورة
+    function compressImage() {
+        const fileInput = document.getElementById('upload');
+        const resultDiv = document.getElementById('result');
+        
+        if (fileInput.files.length === 0) {
+            alert('الرجاء الضغط على Press واختيار صورة أولاً!');
+            return;
+        }
+        
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        
+        reader.onload = function(event) {
+            const img = new Image();
+            img.src = event.target.result;
+            
+            img.onload = function() {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // تصغير الأبعاد بنسبة للنصف لتقليل الحجم
+                const scaleFactor = 0.7;
+                canvas.width = img.width * scaleFactor;
+                canvas.height = img.height * scaleFactor;
+                
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                
+                // تحويل الصورة لصيغة جودة 70% لضغطها
+                const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                
+                resultDiv.innerHTML = `
+                    <p style="color: #28a745; font-weight: bold;"> تم ضغط الصورة بنجاح!</p>
+                    <a href="${compressedDataUrl}" download="compressed_panda.jpg" class="btn" style="background: #28a745; text-decoration: none; display: inline-block; margin-top: 10px;">تحميل الصورة المضغوطة</a>
+                `;
+            }
+        }
+        reader.readAsDataURL(file);
+    }
+    </script>
+
 </body>
 </html>
