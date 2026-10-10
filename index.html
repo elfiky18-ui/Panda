@@ -36,7 +36,7 @@
             margin-bottom: 15px;
         }
         
-        /* تنسيق خط خيارات الجودة الشيك */
+        /* تنسيق خط خيارات الجودة بالإنجليزي بالكامل */
         .quality-selector {
             display: flex;
             justify-content: center;
@@ -139,7 +139,7 @@
             color: #007bff;
             text-decoration: underline;
         }
-        /* تصميم النوافذ المنبثقة (Modals) للسياسات ومن نحن */
+        /* تصميم النوافذ المنبثقة (Modals) */
         .modal {
             display: none;
             position: fixed;
@@ -190,19 +190,19 @@
         <h2>Panda Image Compressor</h2>
         <p class="subtitle">Press it easily</p>
         
-        <!-- خط اختيار جودة الصورة (عالي - وسط - عادي) -->
+        <!-- خط اختيار الجودة بالإنجليزي فقط -->
         <div class="quality-selector">
             <div class="quality-option">
                 <input type="radio" id="qHigh" name="quality" value="0.9">
-                <label for="qHigh">عالي (High)</label>
+                <label for="qHigh">High</label>
             </div>
             <div class="quality-option">
                 <input type="radio" id="qMedium" name="quality" value="0.7" checked>
-                <label for="qMedium">وسط (Medium)</label>
+                <label for="qMedium">Medium</label>
             </div>
             <div class="quality-option">
                 <input type="radio" id="qLow" name="quality" value="0.4">
-                <label for="qLow">عادي (Normal)</label>
+                <label for="qLow">Normal</label>
             </div>
         </div>
 
@@ -210,7 +210,7 @@
         <div class="upload-area">
             <input type="file" id="upload" accept="image/*" class="file-input-hidden" onchange="showFileName()">
             <label for="upload" class="btn-press">Press</label>
-            <span id="fileName" class="file-name">لم يتم اختيار أي ملف</span>
+            <span id="fileName" class="file-name">No file chosen</span>
         </div>
 
         <button class="btn" onclick="compressImage()">Click and download the image</button>
@@ -248,7 +248,7 @@
     <canvas id="canvas" style="display:none;"></canvas>
 
     <script>
-    // عرض اسم الملف بعد الضغط على Press
+    // عرض اسم الملف بالإنجليزية
     function showFileName() {
         const fileInput = document.getElementById('upload');
         const fileNameSpan = document.getElementById('fileName');
@@ -256,12 +256,12 @@
             fileNameSpan.textContent = fileInput.files[0].name;
             fileNameSpan.style.color = "#0f172a";
         } else {
-            fileNameSpan.textContent = "لم يتم اختيار أي ملف";
+            fileNameSpan.textContent = "No file chosen";
             fileNameSpan.style.color = "#64748b";
         }
     }
 
-    // دوال فتح وإغلاق النوافذ المنبثقة
+    // دوال النوافذ المنبثقة
     function openModal(modalId) {
         document.getElementById(modalId).style.display = 'flex';
     }
@@ -276,17 +276,16 @@
         }
     }
 
-    // وظيفة ضغط الصورة بناءً على الجودة المختارة
+    // وظيفة ضغط الصورة
     function compressImage() {
         const fileInput = document.getElementById('upload');
         const resultDiv = document.getElementById('result');
         
         if (fileInput.files.length === 0) {
-            alert('الرجاء الضغط على Press واختيار صورة أولاً!');
+            alert('Please press and select an image first!');
             return;
         }
 
-        // جلب نسبة الجودة المحددة (عالي 0.9، وسط 0.7، عادي 0.4)
         const selectedQuality = document.querySelector('input[name="quality"]:checked').value;
         
         const file = fileInput.files[0];
@@ -306,11 +305,10 @@
                 
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 
-                // الضغط بناءً على القيمة اللي اختارها المستخدم
                 const compressedDataUrl = canvas.toDataURL('image/jpeg', parseFloat(selectedQuality));
                 
                 resultDiv.innerHTML = `
-                    <p style="color: #28a745; font-weight: bold;"> تم ضغط الصورة بنجاح!</p>
+                    <p style="color: #28a745; font-weight: bold;">Successfully compressed!</p>
                     <a href="${compressedDataUrl}" download="compressed_panda.jpg" class="btn" style="background: #28a745; text-decoration: none; display: inline-block; margin-top: 10px;">Click and download the image</a>
                 `;
             }
