@@ -36,7 +36,7 @@
             margin-bottom: 15px;
         }
         
-        /* تنسيق خط خيارات الجودة بالإنجليزي بالكامل */
+        /* تنسيق خط خيارات الجودة (High يمين - Normal شمال) */
         .quality-selector {
             display: flex;
             justify-content: center;
@@ -190,19 +190,19 @@
         <h2>Panda Image Compressor</h2>
         <p class="subtitle">Press it easily</p>
         
-        <!-- خط اختيار الجودة بالإنجليزي فقط -->
+        <!-- خط اختيار الجودة (Normal على الشمال و High على اليمين) -->
         <div class="quality-selector">
             <div class="quality-option">
-                <input type="radio" id="qHigh" name="quality" value="0.9">
-                <label for="qHigh">High</label>
+                <input type="radio" id="qLow" name="quality" value="0.4">
+                <label for="qLow">Normal</label>
             </div>
             <div class="quality-option">
                 <input type="radio" id="qMedium" name="quality" value="0.7" checked>
                 <label for="qMedium">Medium</label>
             </div>
             <div class="quality-option">
-                <input type="radio" id="qLow" name="quality" value="0.4">
-                <label for="qLow">Normal</label>
+                <input type="radio" id="qHigh" name="quality" value="0.9">
+                <label for="qHigh">High</label>
             </div>
         </div>
 
