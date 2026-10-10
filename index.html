@@ -98,11 +98,52 @@
             color: #64748b;
             text-decoration: none;
             margin: 0 10px;
+            cursor: pointer;
             transition: color 0.2s;
         }
         footer a:hover {
             color: #007bff;
             text-decoration: underline;
+        }
+        /* تصميم النوافذ المنبثقة (Modals) للسياسات ومن نحن */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            text-align: left;
+            direction: ltr;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            line-height: 1.8;
+            color: #333;
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #666;
+        }
+        .close-btn:hover {
+            color: #000;
         }
     </style>
 </head>
@@ -127,11 +168,31 @@
         <div id="result"></div>
     </div>
 
-    <!-- فوتر الروابط لتفعيل صفحات السياسات بدون 404 -->
+    <!-- فوتر الروابط المحدث -->
     <footer>
-        <a href="privacy-policy.html">Privacy Policy</a> | 
-        <a href="about-us.html">About Us</a>
+        <a onclick="openModal('privacyModal')">Privacy Policy</a> | 
+        <a onclick="openModal('aboutModal')">About Us</a>
     </footer>
+
+    <!-- نافذة Privacy Policy (منسقة ومرتبة بالكامل) -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('privacyModal')">&times;</span>
+            <h1>Privacy Policy</h1>
+            <p>At Panda Image Compressor, we respect your privacy. All images uploaded for processing are handled securely and are never stored, shared, or used for any other purposes.</p>
+            <p>We use third-party advertising companies (such as Google AdSense) to serve ads when you visit our website. These companies may use information about your visits to this and other websites to provide advertisements about goods and services of interest to you.</p>
+        </div>
+    </div>
+
+    <!-- نافذة About Us (منسقة ومرتبة بالكامل) -->
+    <div id="aboutModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('aboutModal')">&times;</span>
+            <h1>About Us</h1>
+            <p>Welcome to Panda Image Compressor, your ultimate fast and free online tool to compress and resize your images without losing their original quality.</p>
+            <p>Our goal is to provide fast, reliable, and user-friendly web tools for designers, content creators, and everyone looking to optimize their images with a single click.</p>
+        </div>
+    </div>
 
     <canvas id="canvas" style="display:none;"></canvas>
 
@@ -146,6 +207,22 @@
         } else {
             fileNameSpan.textContent = "لم يتم اختيار أي ملف";
             fileNameSpan.style.color = "#64748b";
+        }
+    }
+
+    // دوال فتح وإغلاق النوافذ المنبثقة
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // إغلاق النافذة عند الضغط خارجها
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
         }
     }
 
@@ -189,9 +266,6 @@
         reader.readAsDataURL(file);
     }
     </script>
-<footer>
-    <a href="privacy-policy.html">Privacy Policy</a> | 
-    <a href="about-us.html">About Us</a>
-</footer>
+
 </body>
 </html>
