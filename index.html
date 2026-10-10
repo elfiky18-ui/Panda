@@ -36,7 +36,7 @@
             margin-bottom: 15px;
         }
         
-        /* تنسيق خط خيارات الجودة (High يمين - Normal شمال) */
+        /* تنسيق خط خيارات الجودة */
         .quality-selector {
             display: flex;
             justify-content: center;
@@ -69,7 +69,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        /* تنسيق زرار Press الجديد */
+        /* منطقة رفع الصور */
         .upload-area {
             border: 2px dashed #cbd5e1;
             padding: 20px;
@@ -104,7 +104,7 @@
             color: #64748b;
             word-break: break-all;
         }
-        /* زرار الضغط والتحميل */
+        /* زر الضغط والتحميل */
         .btn { 
             background: #007bff; 
             color: white; 
@@ -139,7 +139,7 @@
             color: #007bff;
             text-decoration: underline;
         }
-        /* تصميم النوافذ المنبثقة (Modals) */
+        /* النوافذ المنبثقة (Modals) */
         .modal {
             display: none;
             position: fixed;
@@ -190,7 +190,7 @@
         <h2>Panda Image Compressor</h2>
         <p class="subtitle">Press it easily</p>
         
-        <!-- خط اختيار الجودة (Normal على الشمال و High على اليمين) -->
+        <!-- خيارات الجودة -->
         <div class="quality-selector">
             <div class="quality-option">
                 <input type="radio" id="qLow" name="quality" value="0.4">
@@ -206,7 +206,7 @@
             </div>
         </div>
 
-        <!-- منطقة اختيار الملف بقالب Press -->
+        <!-- منطقة اختيارات الملفات -->
         <div class="upload-area">
             <input type="file" id="upload" accept="image/*" class="file-input-hidden" onchange="showFileName()">
             <label for="upload" class="btn-press">Press</label>
@@ -218,7 +218,7 @@
         <div id="result"></div>
     </div>
 
-    <!-- فوتر الروابط -->
+    <!-- الفوتر -->
     <footer>
         <a onclick="openModal('privacyModal')">Privacy Policy</a> | 
         <a onclick="openModal('aboutModal')">About Us</a>
@@ -234,21 +234,20 @@
         </div>
     </div>
 
-    <!-- نافذة About Us -->
+    <!-- نافذة About Us (رابط Gmail المباشر) -->
     <div id="aboutModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('aboutModal')">&times;</span>
             <h1>About Us</h1>
             <p>Welcome to Panda Image Compressor, your ultimate fast and free online tool to compress and resize your images without losing their original quality.</p>
             <p>Our goal is to provide fast, reliable, and user-friendly web tools for designers, content creators, and everyone looking to optimize their images with a single click.</p>
-            <p><strong>Contact Us:</strong> <a href="mailto:elfiky18@gmail.com" target="_blank" style="color: #007bff; text-decoration: none;">elfiky18@gmail.com</a></p>
+            <p><strong>Contact Us:</strong> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=elfiky18@gmail.com" target="_blank" style="color: #007bff; text-decoration: none;">elfiky18@gmail.com</a></p>
         </div>
     </div>
 
     <canvas id="canvas" style="display:none;"></canvas>
 
     <script>
-    // عرض اسم الملف بالإنجليزية
     function showFileName() {
         const fileInput = document.getElementById('upload');
         const fileNameSpan = document.getElementById('fileName');
@@ -261,7 +260,6 @@
         }
     }
 
-    // دوال النوافذ المنبثقة
     function openModal(modalId) {
         document.getElementById(modalId).style.display = 'flex';
     }
@@ -276,7 +274,6 @@
         }
     }
 
-    // وظيفة ضغط الصورة
     function compressImage() {
         const fileInput = document.getElementById('upload');
         const resultDiv = document.getElementById('result');
