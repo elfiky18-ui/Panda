@@ -33,8 +33,42 @@
         p.subtitle {
             color: #666;
             font-size: 14px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
+        
+        /* تنسيق خط خيارات الجودة الشيك */
+        .quality-selector {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            background: #f1f5f9;
+            padding: 5px;
+            border-radius: 8px;
+        }
+        .quality-option {
+            flex: 1;
+        }
+        .quality-option input {
+            display: none;
+        }
+        .quality-option label {
+            display: block;
+            padding: 6px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quality-option input:checked + label {
+            background: #ffffff;
+            color: #007bff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
         /* تنسيق زرار Press الجديد */
         .upload-area {
             border: 2px dashed #cbd5e1;
@@ -156,6 +190,22 @@
         <h2>Panda Image Compressor</h2>
         <p class="subtitle">Press it easily</p>
         
+        <!-- خط اختيار جودة الصورة (عالي - وسط - عادي) -->
+        <div class="quality-selector">
+            <div class="quality-option">
+                <input type="radio" id="qHigh" name="quality" value="0.9">
+                <label for="qHigh">عالي (High)</label>
+            </div>
+            <div class="quality-option">
+                <input type="radio" id="qMedium" name="quality" value="0.7" checked>
+                <label for="qMedium">وسط (Medium)</label>
+            </div>
+            <div class="quality-option">
+                <input type="radio" id="qLow" name="quality" value="0.4">
+                <label for="qLow">عادي (Normal)</label>
+            </div>
+        </div>
+
         <!-- منطقة اختيار الملف بقالب Press -->
         <div class="upload-area">
             <input type="file" id="upload" accept="image/*" class="file-input-hidden" onchange="showFileName()">
@@ -168,7 +218,7 @@
         <div id="result"></div>
     </div>
 
-    <!-- فوتر الروابط المحدث -->
+    <!-- فوتر الروابط -->
     <footer>
         <a onclick="openModal('privacyModal')">Privacy Policy</a> | 
         <a onclick="openModal('aboutModal')">About Us</a>
@@ -184,7 +234,7 @@
         </div>
     </div>
 
-    <!-- نافذة About Us (مع تفعيل زر الإيميل) -->
+    <!-- نافذة About Us -->
     <div id="aboutModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('aboutModal')">&times;</span>
@@ -220,14 +270,13 @@
         document.getElementById(modalId).style.display = 'none';
     }
 
-    // إغلاق النافذة عند الضغط خارجها
     window.onclick = function(event) {
         if (event.target.classList.contains('modal')) {
             event.target.style.display = "none";
         }
     }
 
-    // وظيفة ضغط الصورة
+    // وظيفة ضغط الصورة بناءً على الجودة المختارة
     function compressImage() {
         const fileInput = document.getElementById('upload');
         const resultDiv = document.getElementById('result');
@@ -236,6 +285,9 @@
             alert('الرجاء الضغط على Press واختيار صورة أولاً!');
             return;
         }
+
+        // جلب نسبة الجودة المحددة (عالي 0.9، وسط 0.7، عادي 0.4)
+        const selectedQuality = document.querySelector('input[name="quality"]:checked').value;
         
         const file = fileInput.files[0];
         const reader = new FileReader();
@@ -248,19 +300,18 @@
                 const canvas = document.getElementById('canvas');
                 const ctx = canvas.getContext('2d');
                 
-                // تصغير الأبعاد بنسبة للنصف لتقليل الحجم
                 const scaleFactor = 0.7;
                 canvas.width = img.width * scaleFactor;
                 canvas.height = img.height * scaleFactor;
                 
                 ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 
-                // تحويل الصورة لصيغة جودة 70% لضغطها
-                const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                // الضغط بناءً على القيمة اللي اختارها المستخدم
+                const compressedDataUrl = canvas.toDataURL('image/jpeg', parseFloat(selectedQuality));
                 
                 resultDiv.innerHTML = `
                     <p style="color: #28a745; font-weight: bold;"> تم ضغط الصورة بنجاح!</p>
-                    <a href="${compressedDataUrl}" download="compressed_panda.jpg" class="btn" style="background: #28a745; text-decoration: none; display: inline-block; margin-top: 10px;">تحميل الصورة المضغوطة</a>
+                    <a href="${compressedDataUrl}" download="compressed_panda.jpg" class="btn" style="background: #28a745; text-decoration: none; display: inline-block; margin-top: 10px;">Click and download the image</a>
                 `;
             }
         }
